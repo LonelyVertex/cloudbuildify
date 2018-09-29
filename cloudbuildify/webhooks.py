@@ -30,7 +30,7 @@ def webhook():
 def get_branch_name():
     data = request.get_json()
     try:
-        return data['pullrequest']['source']['branch']
+        return data['pullrequest']['source']['branch']['name']
     except (TypeError, KeyError):
         return None
 

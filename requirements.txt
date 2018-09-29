@@ -1,0 +1,4 @@
+Flask==1.0.2
+python-dotenv==0.9.1
+requests==2.19.1
+smart-getenv==1.1.0

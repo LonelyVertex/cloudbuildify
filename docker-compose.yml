@@ -1,0 +1,19 @@
+version: '2'
+services:
+  cloudbuildify:
+    build: .
+    environment:
+      - REDIS_HOST=redis
+    env_file:
+      - .env
+    links:
+      - redis
+    restart: always
+
+  redis:
+    image: redis
+    volumes:
+      - redis-data:/data
+
+volumes:
+  redis-data:

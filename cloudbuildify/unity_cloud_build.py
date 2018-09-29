@@ -46,17 +46,3 @@ def start_build(buildtargetid):
     url = '{}/buildtargets/{}/builds'.format(api_url(), buildtargetid)
     data = {'clean': True}
     requests.post(url, headers=headers(), json=data)
-
-
-def _main():
-    branch = 'feature/cloud-build-tests'
-
-    data = get_build_template()
-    buildtargetid = create_new_build_target(data, branch)
-    start_build(buildtargetid)
-
-
-    # delete_build_target('autobuild-feature-cloud-build-tests')
-
-
-_main()

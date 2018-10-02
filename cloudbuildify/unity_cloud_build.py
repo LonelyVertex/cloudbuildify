@@ -24,10 +24,10 @@ def get_build_template():
     return data
 
 
-def create_new_build_target(data, branch):
+def create_new_build_target(data, branch, user):
     name = re.sub('[^0-9a-zA-Z]+', '-', branch)
 
-    data['name'] = 'Autobuild {}'.format(name)
+    data['name'] = 'Autobuild ({}) {}'.format(user, name)
     data['settings']['scm']['branch'] = branch
 
     url = '{}/buildtargets'.format(api_url())

@@ -18,9 +18,10 @@ app = Flask(__name__)
 def webhook():
     event = request.headers.get('X-Event-Key')
     branch = get_branch_name()
+    user = get_user_name()
 
     if branch and event == 'pullrequest:created':
-        pull_request_created(branch)
+        pull_request_created(branch, user)
     elif branch and event in ('pullrequest:fulfilled', 'pullrequest:rejected'):
         pull_request_resolved(branch)
 
@@ -35,10 +36,18 @@ def get_branch_name():
         return None
 
 
-def pull_request_created(branch):
+def get_user_name():
+    data = request.get_json()
+    try:
+        return data['actor']['display_name']
+    except (TypeError, KeyError):
+        return None
+
+
+def pull_request_created(branch, user):
     logging.info('Creating build target for {}'.format(branch))
     template = get_build_template()
-    buildtargetid = create_new_build_target(template, branch)
+    buildtargetid = create_new_build_target(template, branch, user)
     save_buildtargetid(branch, buildtargetid)
     start_build(buildtargetid)
 

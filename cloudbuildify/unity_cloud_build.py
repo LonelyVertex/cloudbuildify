@@ -27,7 +27,7 @@ def get_build_template():
 def create_new_build_target(data, branch, user):
     name = re.sub('[^0-9a-zA-Z]+', '-', branch)
 
-    data['name'] = 'Autobuild ({}) {}'.format(user, name)
+    data['name'] = 'Autobuild of {} by {}'.format(name, user)
     data['settings']['scm']['branch'] = branch
 
     url = '{}/buildtargets'.format(api_url())

@@ -1,6 +1,7 @@
 import logging
 
 from flask import Flask, request
+from unidecode import unidecode
 
 from cloudbuildify import config
 from cloudbuildify.persistence import (delete_buildtargetid, get_buildtargetid,
@@ -8,7 +9,6 @@ from cloudbuildify.persistence import (delete_buildtargetid, get_buildtargetid,
 from cloudbuildify.unity_cloud_build import (create_new_build_target,
                                              delete_build_target,
                                              get_build_template, start_build)
-
 
 logging.basicConfig(level=logging.INFO)
 app = Flask(__name__)
@@ -39,7 +39,7 @@ def get_branch_name():
 def get_user_name():
     data = request.get_json()
     try:
-        return data['actor']['display_name']
+        return unidecode(data['actor']['display_name'])
     except (TypeError, KeyError):
         return None
 

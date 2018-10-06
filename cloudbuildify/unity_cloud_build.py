@@ -1,3 +1,4 @@
+import logging
 import re
 
 import requests
@@ -32,6 +33,9 @@ def create_new_build_target(data, branch, user):
 
     url = '{}/buildtargets'.format(api_url())
     response = requests.post(url, headers=headers(), json=data)
+
+    if not response.ok:
+        logging.warning('Creating build target "' + data['name'] + '" failed', response.text)
 
     info = response.json()
     return info['buildtargetid']

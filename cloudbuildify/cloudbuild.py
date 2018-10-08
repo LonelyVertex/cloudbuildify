@@ -7,16 +7,20 @@ from cloudbuildify import config
 
 
 def api_url():
-    return 'https://build-api.cloud.unity3d.com/api/v1/orgs/{}/projects/{}'.format(config.ORG_ID, config.PROJECT_ID)
+    return 'https://build-api.cloud.unity3d.com/api/v1/orgs/{}/projects/{}'.format(config.CLOUDBUILD_ORG_ID,
+                                                                                   config.CLOUDBUILD_PROJECT_ID)
 
 
 def headers():
-    return {'Authorization': 'Basic {}'.format(config.API_KEY)}
+    return {'Authorization': 'Basic {}'.format(config.CLOUDBUILD_API_KEY)}
 
 
 def get_build_template():
-    url = '{}/buildtargets/{}'.format(api_url(), config.TEMPLATE_BUILD_TARGET)
+    url = '{}/buildtargets/{}'.format(api_url(), config.CLOUDBUILD_TEMPLATE_BUILD_TARGET)
     response = requests.get(url, headers=headers())
+
+    if not response.ok:
+        logging.error('Getting build template failed', response.text)
 
     data = response.json()
     data.pop('links')
@@ -35,10 +39,10 @@ def create_new_build_target(data, branch, user):
     response = requests.post(url, headers=headers(), json=data)
 
     if not response.ok:
-        logging.warning('Creating build target "' + data['name'] + '" failed', response.text)
+        logging.error('Creating build target "' + data['name'] + '" failed', response.text)
 
     info = response.json()
-    return info['buildtargetid']
+    return info['buildtargetid'], data['name']
 
 
 def delete_build_target(buildtargetid):
@@ -50,3 +54,9 @@ def start_build(buildtargetid):
     url = '{}/buildtargets/{}/builds'.format(api_url(), buildtargetid)
     data = {'clean': True}
     requests.post(url, headers=headers(), json=data)
+
+
+def create_build_url(buildtarget_id, build_number):
+    return 'https://developer.cloud.unity3d.com/build/orgs/{}/projects/{}/buildtargets/{}/builds/{}/log/compact/'.format(
+        config.CLOUDBUILD_ORG_ID, config.CLOUDBUILD_PROJECT_ID, buildtarget_id, build_number
+    )

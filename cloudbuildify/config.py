@@ -1,14 +1,19 @@
 from dotenv import load_dotenv
 from smart_getenv import getenv
 
+
 load_dotenv()
 
-API_KEY = getenv('API_KEY', type=str)
-ORG_ID = getenv('ORG_ID', type=str)
-PROJECT_ID = getenv('PROJECT_ID', type=str)
-TEMPLATE_BUILD_TARGET = getenv('TEMPLATE_BUILD_TARGET', type=str)
+# Cloudbuild configuration
+CLOUDBUILD_API_KEY = getenv('CLOUDBUILD_API_KEY', type=str)
+CLOUDBUILD_WEBHOOK_SECRET = getenv('CLOUDBUILD_WEBHOOK_SECRET', type=str)
+CLOUDBUILD_ORG_ID = getenv('CLOUDBUILD_ORG_ID', type=str)
+CLOUDBUILD_PROJECT_ID = getenv('CLOUDBUILD_PROJECT_ID', type=str)
+CLOUDBUILD_TEMPLATE_BUILD_TARGET = getenv('CLOUDBUILD_TEMPLATE_BUILD_TARGET', type=str)
 
-WEBHOOK_SECRET = getenv('WEBHOOK_SECRET', type=str)
-
-REDIS_HOST = getenv('REDIS_HOST', type=str, default='localhost')
-REDIS_PORT = getenv('REDIS_PORT', type=int, default=6379)
+# Bitbucket configuration
+BITBUCKET_USER = getenv('BITBUCKET_USER', type=str)
+BITBUCKET_PASSWORD = getenv('BITBUCKET_PASSWORD', type=str)
+BITBUCKET_WEBHOOK_SECRET = getenv('BITBUCKET_WEBHOOK_SECRET', type=str)
+BITBUCKET_ORG_ID = getenv('BITBUCKET_ORG_ID', type=str)
+BITBUCKET_PROJECT_ID = getenv('BITBUCKET_PROJECT_ID', type=str)

@@ -5,6 +5,8 @@ WORKDIR /app
 COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 
+RUN mkdir -p /app/data
+
 COPY cloudbuildify /app/cloudbuildify
 
 EXPOSE 8000

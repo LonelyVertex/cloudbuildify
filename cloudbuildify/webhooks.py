@@ -8,8 +8,8 @@ from cloudbuildify import cloudbuild
 from cloudbuildify import config
 from cloudbuildify.persistence import BuildTarget
 
-
-logging.basicConfig(level=logging.INFO)
+FORMAT = '%(asctime)-15s %(message)s'
+logging.basicConfig(level=logging.INFO, format=FORMAT)
 app = Flask(__name__)
 
 

@@ -36,7 +36,7 @@ class BuildTarget:
             values.append(value)
         c.execute(query, values)
         row = c.fetchone()
-        return BuildTarget(*row)
+        return BuildTarget(*row) if row else None
 
     def save(self):
         with conn:

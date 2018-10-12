@@ -81,10 +81,12 @@ def build_status_updated(state):
     data = request.get_json()
     buildtarget_name = data['buildTargetName']
     build_number = data['buildNumber']
+    buildtarget = BuildTarget.find(buildtarget_name=buildtarget_name)
+
+    if not buildtarget:
+        return
 
     logging.info('Updating build status for {} to {}'.format(buildtarget_name, state))
-
-    buildtarget = BuildTarget.find(buildtarget_name=buildtarget_name)
     key = '{}-{}'.format(buildtarget.buildtarget_id[:35], build_number)
     url = cloudbuild.create_build_url(buildtarget.buildtarget_id, build_number)
 

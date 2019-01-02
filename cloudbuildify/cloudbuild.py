@@ -30,7 +30,8 @@ def get_build_template():
 
 
 def create_new_build_target(data, branch, user):
-    name = re.sub('[^0-9a-zA-Z]+', '-', branch)
+    name_limit = 64 - 17 - len(user)
+    name = re.sub('[^0-9a-zA-Z]+', '-', branch)[0:name_limit]
 
     data['name'] = 'Autobuild of {} by {}'.format(name, user)
     data['settings']['scm']['branch'] = branch
